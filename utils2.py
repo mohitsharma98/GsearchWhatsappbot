@@ -11,12 +11,15 @@ resource = build('customsearch', 'v1', developerKey=api_key).cse()
 
 def get_text(parameters):
     print(dict(parameters))
-    response = resource.list(q=str(parameters), cx="001380558770229582407:s9fgjefe8qi", num=1).execute()
-    print(response['items'][0]['title'])
+    print("-------------------------")
+    print(parameters['search_type'][0])
+    print("-------------------------")
+    response = resource.list(q=parameters['search_type'][0], cx="001380558770229582407:s9fgjefe8qi", num=3).execute()
+    print(response)
     return response
 
 def get_image(parameters):
-    print(dict(parameters))
+    print(parameters)
     response = resource.list(q=parameters, cx="001380558770229582407:s9fgjefe8qi",searchType='image', num=1).execute()
     print(response['items'][0])
     return response
@@ -30,7 +33,7 @@ def detect_intent_from_text(text, session_id, language_code='en'):
 
 def fetch_reply(msg, session_id):
     response = detect_intent_from_text(msg, session_id)
-    print(response.parameters)
+    print(response)
     if response.intent.display_name == 'get_text':
         text = get_text(dict(response.parameters))
         print(text['items'][0])
