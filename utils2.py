@@ -1,5 +1,5 @@
 import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "secret.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "customsearch.json"
 
 import dialogflow_v2 as dialogflow
 dialogflow_session_client = dialogflow.SessionsClient()
@@ -11,10 +11,15 @@ resource = build('customsearch', 'v1', developerKey=api_key).cse()
 
 def get_text(parameters):
     print(dict(parameters))
+    p=0
+    s=""
     print("-------------------------")
-    print(parameters['search_type'][0])
+    for i in parameters['search_type']:
+        s += "{} ".format(parameters['search_type'][p])
+        p=p+1
+    print(s)
     print("-------------------------")
-    response = resource.list(q=parameters['search_type'][0], cx="001380558770229582407:s9fgjefe8qi", num=3).execute()
+    response = resource.list(q=s, cx="001380558770229582407:s9fgjefe8qi", num=5).execute()
     print(response)
     return response
 
